@@ -49,9 +49,9 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Castle.Sharp2Js\Castle.Sharp2Js.csproj">
-      <Project>{c9ccb675-668d-48ff-ad47-7e2d9eda49e1}</Project>
-      <Name>Castle.Sharp2Js</Name>
+    <ProjectReference Include="..\Utility\Utility.csproj">
+      <Project>{dc67bc02-d1ab-4988-8628-5bcd588d86ce}</Project>
+      <Name>Utility</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

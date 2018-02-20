@@ -1,24 +1,52 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Text;
+using Utility;
 
 namespace CSharpToEcma6
 {
+    [ExcludeFromCodeCoverage]
+    public class AddressInformation
+    {
+        public string Name { get; set; }
+        public string Address { get; set; }
+        public int ZipCode { get; set; }
+        public OwnerInformation Owner { get; set; }
+        public List<Feature> Features { get; set; }
+        public List<string> Tags { get; set; }
+    }
+
+    [ExcludeFromCodeCoverage]
+    public class OwnerInformation
+    {
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public int Age { get; set; }
+    }
+
+    [ExcludeFromCodeCoverage]
+    public class Feature
+    {
+        public string Name { get; set; }
+        public double Value { get; set; }
+    }
+
     class Program
     {
         static void Main(string[] args)
         {
-            var options = new Castle.Sharp2Js.JsGeneratorOptions()
+            var options = new JsGeneratorOptions()
             {
                 CamelCase = true,
-                OutputNamespace = "models",
+                OutputNamespace = "class",
                 IncludeMergeFunction = true,
                 ClassNameConstantsToRemove = new List<string>() { "Dto" },
                 RespectDataMemberAttribute = true,
                 RespectDefaultValueAttribute = true,
                 TreatEnumsAsStrings = false,
                 CustomFunctionProcessors =
-                    new List<Action<StringBuilder, IEnumerable<Castle.Sharp2Js.PropertyBag>, Castle.Sharp2Js.JsGeneratorOptions>>()
+                    new List<Action<StringBuilder, IEnumerable<PropertyBag>, JsGeneratorOptions>>()
                     {
                         (builder, bags, arg3) =>
                         {
@@ -28,7 +56,8 @@ namespace CSharpToEcma6
                         }
                     }
             };
-            var str = Castle.Sharp2Js.JsGenerator.Generate(new[] { typeof(Castle.Sharp2Js.SampleData.AddressInformation) }, options);
+            // var str = JsGenerator.Generate(new[] { typeof(AddressInformation) }, options);
+            var str = Ecma6Generator.Generate(new[] { typeof(AddressInformation) }, options);
 
             Console.WriteLine(str);
         }

@@ -3,19 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Castle.Sharp2Js
+namespace Utility
 {
-    /// <summary>
-    /// Converts C# classes to javascript objects for use across application tiers and in REST calls, etc.
-    /// </summary>
     public static class JsGenerator
     {
-        /// <summary>
-        /// Global settings for the generator.  These will be used if no override is provided.
-        /// </summary>
-        /// <value>
-        /// The options.
-        /// </value>
         public static JsGeneratorOptions Options { get; set; } = new JsGeneratorOptions();
 
         private static readonly List<Type> AllowedDictionaryKeyTypes = new List<Type>()
@@ -25,12 +16,6 @@ namespace Castle.Sharp2Js
             typeof(Enum)
         }; 
 
-        /// <summary>
-        /// Generates a string containing js definitions of the provided types and all implied descendant types.
-        /// </summary>
-        /// <param name="typesToGenerate">The types to generate.</param>
-        /// <param name="generatorOptions">The generator options. Uses global settings if not provided.</param>
-        /// <returns></returns>
         public static string Generate(IEnumerable<Type> typesToGenerate, JsGeneratorOptions generatorOptions = null)
         {
             var passedOptions = generatorOptions ?? Options;
@@ -44,13 +29,6 @@ namespace Castle.Sharp2Js
         }
 
 
-        /// <summary> 
-        /// Generates a js equivalent to a C# class and descendant classes. 
-        /// </summary>
-        /// <param name="modelType">Type of the model.</param>
-        /// <param name="camelCasePropertyNames">if set to <c>true</c>, use camel casing in the output model.</param>
-        /// <param name="outputNamespace">The output namespace.</param>
-        /// <returns>A javsacript object string.</returns>
         [Obsolete("This is a legacy method. Please use the Generate(...) method instead.")]
         public static string GenerateJsModelFromTypeWithDescendants(Type modelType, bool camelCasePropertyNames, string outputNamespace)
         {
@@ -66,12 +44,6 @@ namespace Castle.Sharp2Js
 
         }
 
-        /// <summary>
-        /// Generates the js.
-        /// </summary>
-        /// <param name="propertyCollection">The property collection derived from the types to be converted.</param>
-        /// <param name="generationOptions">The generation options.</param>
-        /// <returns></returns>
         private static string GenerateJs(IEnumerable<PropertyBag> propertyCollection, JsGeneratorOptions generationOptions)
         {
             var options = generationOptions;
@@ -148,21 +120,11 @@ namespace Castle.Sharp2Js
             return sbOut.ToString();
         }
 
-        /// <summary>
-        /// Builds the Js class closure.
-        /// </summary>
-        /// <param name="sb">The string builder.</param>
         private static void BuildClassClosure(StringBuilder sb)
         {
             sb.AppendLine("}");
         }
 
-        /// <summary>
-        /// Builds the class constructor.
-        /// </summary>
-        /// <param name="type">The type.</param>
-        /// <param name="sb">The string builder.</param>
-        /// <param name="options">The options.</param>
         private static void BuildClassConstructor(IGrouping<string, PropertyBag> type, StringBuilder sb, JsGeneratorOptions options)
         {
             if (
@@ -191,12 +153,6 @@ namespace Castle.Sharp2Js
             
         }
 
-        /// <summary>
-        /// Builds the equals function for a type.
-        /// </summary>
-        /// <param name="sb">The string builder.</param>
-        /// <param name="propList">The property list.</param>
-        /// <param name="options">The options.</param>
         private static void BuildEqualsFunctionForClass(StringBuilder sb, IEnumerable<PropertyBag> propList,
             JsGeneratorOptions options)
         {
@@ -294,12 +250,6 @@ namespace Castle.Sharp2Js
             sb.AppendLine("\t}");
         }
 
-        /// <summary>
-        /// Builds the merge function for a type.
-        /// </summary>
-        /// <param name="sb">The string builder.</param>
-        /// <param name="propList">The property list.</param>
-        /// <param name="options">The options.</param>
         private static void BuildMergeFunctionForClass(StringBuilder sb, IEnumerable<PropertyBag> propList,
                     JsGeneratorOptions options)
         {
@@ -377,12 +327,6 @@ namespace Castle.Sharp2Js
             sb.AppendLine("\t}");
         }
 
-        /// <summary>
-        /// Builds a primitive property.
-        /// </summary>
-        /// <param name="propEntry">The property entry.</param>
-        /// <param name="sb">The string builder.</param>
-        /// <param name="options">The options.</param>
         private static void BuildPrimitiveProperty(PropertyBag propEntry, StringBuilder sb, JsGeneratorOptions options)
         {
             if (propEntry.TypeDefinition.IsEnum)
@@ -415,12 +359,6 @@ namespace Castle.Sharp2Js
             }
         }
 
-        /// <summary>
-        /// Builds an object/reference property.
-        /// </summary>
-        /// <param name="sb">The string builder.</param>
-        /// <param name="propEntry">The property entry.</param>
-        /// <param name="options">The options.</param>
         private static void BuildObjectProperty(StringBuilder sb, PropertyBag propEntry, JsGeneratorOptions options)
         {
 
@@ -438,12 +376,6 @@ namespace Castle.Sharp2Js
             sb.AppendLine("\t}");
         }
 
-        /// <summary>
-        /// Builds an array property.
-        /// </summary>
-        /// <param name="sb">The string builder.</param>
-        /// <param name="propEntry">The property entry.</param>
-        /// <param name="options">The options.</param>
         private static void BuildArrayProperty(StringBuilder sb, PropertyBag propEntry, JsGeneratorOptions options)
         {
             sb.AppendLine(string.Format("\tthis.{0} = new Array(cons.{0} == null ? 0 : cons.{1}.length );", Helpers.ToCamelCase(propEntry.PropertyName, options.CamelCase), Helpers.ToCamelCase(propEntry.PropertyName, options.CamelCase)));
@@ -474,12 +406,6 @@ namespace Castle.Sharp2Js
             sb.AppendLine("\t}");
         }
 
-        /// <summary>
-        /// Builds a dictionary property.
-        /// </summary>
-        /// <param name="sb">The string builder.</param>
-        /// <param name="propEntry">The property entry.</param>
-        /// <param name="options">The options.</param>
         private static void BuildDictionaryProperty(StringBuilder sb, PropertyBag propEntry, JsGeneratorOptions options)
         {
             sb.AppendLine($"\tthis.{Helpers.ToCamelCase(propEntry.PropertyName, options.CamelCase)} = {{}};");

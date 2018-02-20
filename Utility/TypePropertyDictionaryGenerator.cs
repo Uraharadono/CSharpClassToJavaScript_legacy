@@ -2,20 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Castle.Sharp2Js
+namespace Utility
 {
-    /// <summary>
-    /// Generates a list of property type information to be used by the Js Generator
-    /// </summary>
     public static class TypePropertyDictionaryGenerator
     {
-        /// <summary>
-        /// Gets the property dictionary to be used for type generation.
-        /// </summary>
-        /// <param name="types">The types to generate property information for.</param>
-        /// <param name="generatorOptions">The generator options.</param>
-        /// <param name="propertyTypeCollection">The output collection of properties discovered through reflection of the supplied classes.</param>
-        /// <returns></returns>
         public static IEnumerable<PropertyBag> GetPropertyDictionaryForTypeGeneration(IEnumerable<Type> types,
             JsGeneratorOptions generatorOptions,
             List<PropertyBag> propertyTypeCollection = null)
@@ -127,11 +117,6 @@ namespace Castle.Sharp2Js
             return propertyTypeCollection;
         }
 
-        /// <summary>
-        /// Gets inner types of collections and dictionaries.
-        /// </summary>
-        /// <param name="propertyType">Type of the property.</param>
-        /// <returns></returns>
         private static List<PropertyBagTypeInfo> GetCollectionInnerTypes(Type propertyType)
         {
             if (propertyType.IsArray)
