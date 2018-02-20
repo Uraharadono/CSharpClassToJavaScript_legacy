@@ -121,6 +121,7 @@ namespace Utility
 
         private static void BuildClassClosure(StringBuilder sb)
         {
+            sb.AppendLine("    }");
             sb.AppendLine("}");
         }
 
@@ -133,17 +134,17 @@ namespace Utility
                         p.TransformablePropertyType == PropertyBag.TransformablePropertyTypeEnum.ReferenceType))
             {
                 sb.AppendLine(
-                    $"{options.OutputNamespace} {Helpers.GetName(type.First().TypeName, options.ClassNameConstantsToRemove)} {{ ");
+                    $"{options.OutputNamespace} {Helpers.GetName(type.First().TypeName, options.ClassNameConstantsToRemove)} {{ \n constructor(data) {{ ");
             }
             else if (type.First().TypeDefinition.IsEnum)
             {
                 sb.AppendLine(
-                    $"{options.OutputNamespace} {Helpers.GetName(type.First().TypeName, options.ClassNameConstantsToRemove)} = {{");
+                    $"{options.OutputNamespace} {Helpers.GetName(type.First().TypeName, options.ClassNameConstantsToRemove)} {{ \n constructor(data) {{ ");
             }
             else
             {
                 sb.AppendLine(
-                    $"{options.OutputNamespace}.{Helpers.GetName(type.First().TypeName, options.ClassNameConstantsToRemove)} {{");
+                    $"{options.OutputNamespace}.{Helpers.GetName(type.First().TypeName, options.ClassNameConstantsToRemove)} {{ \n constructor(data) {{ ");
 
                 sb.AppendLine("\tif (!data) { data = { }; }");
             }

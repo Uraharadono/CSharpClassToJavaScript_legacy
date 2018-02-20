@@ -45,16 +45,16 @@ namespace CSharpToEcma6
                 RespectDataMemberAttribute = true,
                 RespectDefaultValueAttribute = true,
                 TreatEnumsAsStrings = false,
-                CustomFunctionProcessors =
-                    new List<Action<StringBuilder, IEnumerable<PropertyBag>, JsGeneratorOptions>>()
-                    {
-                        (builder, bags, arg3) =>
-                        {
-                            builder.AppendLine("\tthis.helloWorld = function () {");
-                            builder.AppendLine("\t\tconsole.log('hello');");
-                            builder.AppendLine("\t}");
-                        }
-                    }
+                //  CustomFunctionProcessors =
+                    //new List<Action<StringBuilder, IEnumerable<PropertyBag>, JsGeneratorOptions>>()
+                    //{
+                    //    (builder, bags, arg3) =>
+                    //    {
+                    //        builder.AppendLine("\tthis.helloWorld = function () {");
+                    //        builder.AppendLine("\t\tconsole.log('hello');");
+                    //        builder.AppendLine("\t}");
+                    //    }
+                    //}
             };
             // var str = JsGenerator.Generate(new[] { typeof(AddressInformation) }, options);
             var str = Ecma6Generator.Generate(new[] { typeof(AddressInformation) }, options);
