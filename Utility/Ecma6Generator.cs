@@ -359,19 +359,9 @@ namespace Utility
 
         private static void BuildObjectProperty(StringBuilder sb, PropertyBag propEntry, JsGeneratorOptions options)
         {
-
-            sb.AppendLine($"\tthis.{Helpers.ToCamelCase(propEntry.PropertyName, options.CamelCase)} = null;");
-            sb.AppendLine($"\tif (data.{Helpers.ToCamelCase(propEntry.PropertyName, options.CamelCase)}) {{");
+            // sb.AppendLine($"\tthis.{Helpers.ToCamelCase(propEntry.PropertyName, options.CamelCase)} = null;");
             sb.AppendLine(
-                $"\t\tif (!overrideObj.{Helpers.GetName(propEntry.PropertyType.Name, options.ClassNameConstantsToRemove)}) {{");
-            sb.AppendLine(
-                $"\t\t\tthis.{Helpers.ToCamelCase(propEntry.PropertyName, options.CamelCase)} = new {options.OutputNamespace}.{Helpers.GetName(propEntry.PropertyType.Name, options.ClassNameConstantsToRemove)}(data.{Helpers.ToCamelCase(propEntry.PropertyName, options.CamelCase)});");
-            sb.AppendLine("\t\t} else {");
-            sb.AppendLine(
-                $"\t\t\tthis.{Helpers.ToCamelCase(propEntry.PropertyName, options.CamelCase)} = new overrideObj.{Helpers.GetName(propEntry.PropertyType.Name, options.ClassNameConstantsToRemove)}(data.{Helpers.ToCamelCase(propEntry.PropertyName, options.CamelCase)}, overrideObj);");
-
-            sb.AppendLine("\t\t}");
-            sb.AppendLine("\t}");
+                $"\tthis.{Helpers.ToCamelCase(propEntry.PropertyName, options.CamelCase)} = new {Helpers.GetName(propEntry.PropertyType.Name, options.ClassNameConstantsToRemove)}(data.{Helpers.ToCamelCase(propEntry.PropertyName, options.CamelCase)});");
         }
 
         private static void BuildArrayProperty(StringBuilder sb, PropertyBag propEntry, JsGeneratorOptions options)
@@ -388,7 +378,7 @@ namespace Utility
                 sb.AppendLine(
                     $"\t\t\tif (!overrideObj.{Helpers.GetName(collectionType.Type.Name, options.ClassNameConstantsToRemove)}) {{");
                 sb.AppendLine(
-                    $"\t\t\t\tthis.{Helpers.ToCamelCase(propEntry.PropertyName, options.CamelCase)}[i] = new {options.OutputNamespace}.{Helpers.GetName(collectionType.Type.Name, options.ClassNameConstantsToRemove)}(data.{Helpers.ToCamelCase(propEntry.PropertyName, options.CamelCase)}[i]);");
+                    $"\t\t\t\tthis.{Helpers.ToCamelCase(propEntry.PropertyName, options.CamelCase)}[i] = new {options.OutputNamespace} {Helpers.GetName(collectionType.Type.Name, options.ClassNameConstantsToRemove)}(data.{Helpers.ToCamelCase(propEntry.PropertyName, options.CamelCase)}[i]);");
                 sb.AppendLine("\t\t\t} else {");
                 sb.AppendLine(
                     $"\t\t\t\tthis.{Helpers.ToCamelCase(propEntry.PropertyName, options.CamelCase)}[i] = new overrideObj.{Helpers.GetName(collectionType.Type.Name, options.ClassNameConstantsToRemove)}(data.{Helpers.ToCamelCase(propEntry.PropertyName, options.CamelCase)}[i], overrideObj);");
@@ -426,7 +416,7 @@ namespace Utility
                 sb.AppendLine(
                     $"\t\t\t\tif (!overrideObj.{Helpers.GetName(valueType.Type.Name, options.ClassNameConstantsToRemove)}) {{");
                 sb.AppendLine(
-                    $"\t\t\t\t\tthis.{Helpers.ToCamelCase(propEntry.PropertyName, options.CamelCase)}[key] = new {options.OutputNamespace}.{Helpers.GetName(valueType.Type.Name, options.ClassNameConstantsToRemove)}(cons.{Helpers.ToCamelCase(propEntry.PropertyName, options.CamelCase)}[key]);");
+                    $"\t\t\t\t\tthis.{Helpers.ToCamelCase(propEntry.PropertyName, options.CamelCase)}[key] = new {options.OutputNamespace} {Helpers.GetName(valueType.Type.Name, options.ClassNameConstantsToRemove)}(cons.{Helpers.ToCamelCase(propEntry.PropertyName, options.CamelCase)}[key]);");
                 sb.AppendLine("\t\t\t\t} else {");
                 sb.AppendLine(
                     $"\t\t\t\t\tthis.{Helpers.ToCamelCase(propEntry.PropertyName, options.CamelCase)}[key] = new overrideObj.{Helpers.GetName(valueType.Type.Name, options.ClassNameConstantsToRemove)}(cons.{Helpers.ToCamelCase(propEntry.PropertyName, options.CamelCase)}[key], overrideObj);");

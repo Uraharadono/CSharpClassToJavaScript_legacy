@@ -40,7 +40,7 @@ namespace CSharpToEcma6
             {
                 CamelCase = true,
                 OutputNamespace = "class",
-                IncludeMergeFunction = true,
+                IncludeMergeFunction = false,
                 ClassNameConstantsToRemove = new List<string>() { "Dto" },
                 RespectDataMemberAttribute = true,
                 RespectDefaultValueAttribute = true,
@@ -57,7 +57,8 @@ namespace CSharpToEcma6
                     //}
             };
             // var str = JsGenerator.Generate(new[] { typeof(AddressInformation) }, options);
-            var str = Ecma6Generator.Generate(new[] { typeof(AddressInformation) }, options);
+            // var str = Ecma6Generator.Generate(new[] { typeof(AddressInformation) }, options);
+            var str = Ecma6KnockoutGenerator.Generate(new[] { typeof(AddressInformation) }, options);
 
             Console.WriteLine(str);
         }
