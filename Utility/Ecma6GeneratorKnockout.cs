@@ -28,21 +28,6 @@ namespace Utility
             return js;
         }
 
-
-        [Obsolete("This is a legacy method. Please use the Generate(...) method instead.")]
-        public static string GenerateJsModelFromTypeWithDescendants(Type modelType, bool camelCasePropertyNames, string outputNamespace)
-        {
-            var propertyDictionary = TypePropertyDictionaryGenerator.GetPropertyDictionaryForTypeGeneration(new[] { modelType }, Options);
-
-            return GenerateJs(propertyDictionary, new JsGeneratorOptions()
-            {
-                CamelCase = camelCasePropertyNames,
-                ClassNameConstantsToRemove = new List<string>() { "Dto" },
-                OutputNamespace = outputNamespace,
-                IncludeMergeFunction = true
-            });
-        }
-
         private static string GenerateJs(IEnumerable<PropertyBag> propertyCollection, JsGeneratorOptions generationOptions)
         {
             var options = generationOptions;
@@ -83,14 +68,21 @@ namespace Utility
                         customProcessor(sb, propList, options);
                     }
                 }
-
-                BuildClassClosure(sb);
+                // BuildClassClosure(sb);
+                BuildClassClosure(sb, type, options);
 
                 sbOut.AppendLine(sb.ToString());
                 sbOut.AppendLine();
             }
 
             return sbOut.ToString();
+        }
+
+        private static void BuildClassClosure(StringBuilder sb, IGrouping<string, PropertyBag> type, JsGeneratorOptions options)
+        {
+            sb.AppendLine("    }");
+            sb.AppendLine("}");
+            sb.AppendLine($"export default { Helpers.GetName(type.First().TypeName, options.ClassNameConstantsToRemove)};");
         }
 
         private static void BuildClassClosure(StringBuilder sb)
