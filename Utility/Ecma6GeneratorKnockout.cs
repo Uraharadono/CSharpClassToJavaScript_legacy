@@ -14,7 +14,7 @@ namespace Utility
             typeof(int),
             typeof(string),
             typeof(Enum)
-        }; 
+        };
 
         public static string Generate(IEnumerable<Type> typesToGenerate, JsGeneratorOptions generatorOptions = null)
         {
@@ -31,7 +31,7 @@ namespace Utility
         private static string GenerateJs(IEnumerable<PropertyBag> propertyCollection, JsGeneratorOptions generationOptions)
         {
             var options = generationOptions;
-            
+
             var sbOut = new StringBuilder();
 
             foreach (var type in propertyCollection.GroupBy(r => r.TypeName))
@@ -68,7 +68,7 @@ namespace Utility
                         customProcessor(sb, propList, options);
                     }
                 }
-                // BuildClassClosure(sb);
+
                 BuildClassClosure(sb, type, options);
 
                 sbOut.AppendLine(sb.ToString());
@@ -83,12 +83,6 @@ namespace Utility
             sb.AppendLine("    }");
             sb.AppendLine("}");
             sb.AppendLine($"export default { Helpers.GetName(type.First().TypeName, options.ClassNameConstantsToRemove)};");
-        }
-
-        private static void BuildClassClosure(StringBuilder sb)
-        {
-            sb.AppendLine("    }");
-            sb.AppendLine("}");
         }
 
         private static void BuildClassConstructor(IGrouping<string, PropertyBag> type, StringBuilder sb, JsGeneratorOptions options)
