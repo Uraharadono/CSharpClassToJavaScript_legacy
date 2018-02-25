@@ -36,21 +36,20 @@ namespace CsFilesUploadRuntimeConverter
         private static void BuildClassConstructor(string cName, StringBuilder sb)
         {
             sb.AppendLine(
-                $"class {Helpers.ToCamelCase(cName, true)} {{ \n constructor(data) {{ ");
+                $"class {cName} {{ \n constructor(data) {{ ");
         }
 
         private static void BuildArrayProperty(StringBuilder sb, FilePropertyModel fileProperty, string className)
         {
-            string nameOfMapVar = Helpers.ToCamelCase(fileProperty.PropertyName, true).Trim();
-            string nameOfClass = Helpers.ToCamelCase(className, true).Trim();
+            string nameOfMapVar = Helpers.ToCamelCase(fileProperty.PropertyName, true);
 
             if (fileProperty.PropertyType == PropertyType.ClassType)
             {
                 sb.AppendLine(
-                    $"\tconst mapped{nameOfMapVar} = data.{nameOfMapVar}.map(s => new {nameOfClass}(s));");
+                    $"\tconst mapped{fileProperty.PropertyName} = data.{nameOfMapVar}.map(s => new {fileProperty.PropertyTypeName}(s));");
 
                 sb.AppendLine(
-                    $"\tthis.{nameOfMapVar} = ko.observableArray(mapped);");
+                    $"\tthis.{nameOfMapVar} = ko.observableArray(mapped{fileProperty.PropertyName});");
             }
             else
             {
@@ -62,15 +61,27 @@ namespace CsFilesUploadRuntimeConverter
         private static void BuildPrimitiveProperty(StringBuilder sb, FilePropertyModel fileProperty)
         {
             string nameOfMapVar = Helpers.ToCamelCase(fileProperty.PropertyName, true);
-            sb.AppendLine(
-                $"\tthis.{nameOfMapVar} = data.{nameOfMapVar};");
+
+            if (fileProperty.PropertyType == PropertyType.PrimitiveType)
+            {
+                sb.AppendLine($"\tthis.{nameOfMapVar} = data.{nameOfMapVar};");
+            }
+            if (fileProperty.PropertyType == PropertyType.ClassType)
+            {
+                sb.AppendLine($"\tthis.{nameOfMapVar} = new {fileProperty.PropertyTypeName}(data.{nameOfMapVar});");
+            }
+
+            if (fileProperty.PropertyType == PropertyType.Undefined)
+            {
+                sb.AppendLine($"\t // there is property here called: {nameOfMapVar}. We are unable to parse it for some reason.");
+            }
         }
 
         private static void BuildClassClosure(string cName, StringBuilder sb)
         {
             sb.AppendLine("    }");
             sb.AppendLine("}");
-            sb.AppendLine($"export default {Helpers.ToCamelCase(cName, true)};");
+            sb.AppendLine($"export default {cName};");
         }
 
     }

@@ -54,9 +54,11 @@ namespace CsFilesUploadRuntimeConverter
                 "Double",
                 "Float",
                 "String",
-                "Object"
+                "Object",
+                "Long"
             };
             List<string> listOfLowerVarTypes = listOfVarTypes.Select(d => d.ToLower()).ToList();
+            listOfLowerVarTypes.AddRange(listOfVarTypes.Select(d => d.ToLower() + "?").ToList());
 
             string line;
             // Read the file and display it line by line.  

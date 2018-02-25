@@ -28,7 +28,7 @@ namespace CsFilesUploadRuntimeConverter
                 if (property.ToLower().Contains(varType))
                 {
                     retValue.PropertyType = PropertyType.PrimitiveType;
-                    retValue.PropertyTypeName = varType;
+                    retValue.PropertyTypeName = varType.Trim();
                 }
             }
             foreach (var className in listOfClassNames)
@@ -36,7 +36,7 @@ namespace CsFilesUploadRuntimeConverter
                 if (property.ToLower().Contains(className.ToLower()))
                 {
                     retValue.PropertyType = PropertyType.ClassType;
-                    retValue.PropertyTypeName = className;
+                    retValue.PropertyTypeName = className.Trim();
                 }
             }
 
@@ -75,7 +75,7 @@ namespace CsFilesUploadRuntimeConverter
                     endIndex = endIndex - 1;
                 }
 
-                return line.Substring(startIndex, endIndex);
+                return line.Substring(startIndex, endIndex).Trim();
             }
             else
             {
@@ -105,7 +105,8 @@ namespace CsFilesUploadRuntimeConverter
                     .Replace("String", "")
                     .Replace("Object", "")
                     .Replace("public", "")
-                    .Replace("private", "");
+                    .Replace("private", "")
+                    .Trim();
 
                 return retS;
             }
