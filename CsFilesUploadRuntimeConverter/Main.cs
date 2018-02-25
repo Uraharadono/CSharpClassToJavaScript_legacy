@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
@@ -100,14 +99,7 @@ namespace CsFilesUploadRuntimeConverter
             // Finally generate
             string result = FileUploadEcma6JsKnockoutGenerator.GenerateJs(model);
 
-            Debug.WriteLine(result);
-
             codeTextEditor.Text = result;
-
-            //foreach (var pair in listOfProperties)
-            //{
-            //    Debug.WriteLine($"{pair.ClassName}  -  {pair.OriginalPropertyLine}  ( {pair.LineType.PropertyType}/{pair.LineType.IsArray} ) /// {pair.PropertyName}  {pair.LineType.PropertyTypeName}");
-            //}
         }
 
         private void ShowErrorMessage()
@@ -119,6 +111,5 @@ namespace CsFilesUploadRuntimeConverter
             // Displays the MessageBox.
             MessageBox.Show(message, caption, buttons);
         }
-
     }
 }
