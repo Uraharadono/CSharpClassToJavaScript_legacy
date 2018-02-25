@@ -48,7 +48,7 @@ namespace CsFilesUploadRuntimeConverter
                 "Byte",
                 "SByte",
                 "Char",
-                "Date",
+                // "Date", // TODO: Check what to do with Date type vars, cause it is interfeering with DateTime vars
                 "DateTime",
                 "Decimal",
                 "Double",

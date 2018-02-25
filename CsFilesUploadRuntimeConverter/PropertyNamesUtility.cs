@@ -31,6 +31,7 @@ namespace CsFilesUploadRuntimeConverter
                     retValue.PropertyTypeName = varType.Trim();
                 }
             }
+
             foreach (var className in listOfClassNames)
             {
                 if (property.ToLower().Contains(className.ToLower()))
@@ -51,7 +52,19 @@ namespace CsFilesUploadRuntimeConverter
         {
             if (pairLineType.PropertyType != PropertyType.Undefined)
             {
-                var startIndex = line.IndexOf(pairLineType.PropertyTypeName, StringComparison.Ordinal) + pairLineType.PropertyTypeName.Length + 1;
+                int startIndex;
+
+                // Code below was working just fine untill damn DateTime happened, now I don't even know what is happening
+                // var startIndex = line.IndexOf(pairLineType.PropertyTypeName, StringComparison.Ordinal) + pairLineType.PropertyTypeName.Length + 1;
+                if (pairLineType.IsArray)
+                {
+                    startIndex = line.IndexOf(pairLineType.PropertyTypeName, StringComparison.Ordinal) + pairLineType.PropertyTypeName.Length + 1;
+                }
+                else
+                {
+                    startIndex = line.ToLower().IndexOf(pairLineType.PropertyTypeName.ToLower(), StringComparison.Ordinal);
+                    startIndex = startIndex + pairLineType.PropertyTypeName.Length + 1;
+                }
                 int endIndex;
 
                 var hasCurly = line.Contains("{");
