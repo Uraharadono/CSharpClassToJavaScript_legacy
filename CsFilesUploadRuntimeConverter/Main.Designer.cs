@@ -31,11 +31,12 @@
             this.SelectFileButton = new System.Windows.Forms.Button();
             this.fileNameLabel = new System.Windows.Forms.Label();
             this.btnGenerate = new System.Windows.Forms.Button();
+            this.codeTextEditor = new System.Windows.Forms.RichTextBox();
             this.SuspendLayout();
             // 
             // SelectFileButton
             // 
-            this.SelectFileButton.Location = new System.Drawing.Point(144, 91);
+            this.SelectFileButton.Location = new System.Drawing.Point(28, 30);
             this.SelectFileButton.Name = "SelectFileButton";
             this.SelectFileButton.Size = new System.Drawing.Size(100, 36);
             this.SelectFileButton.TabIndex = 0;
@@ -46,14 +47,14 @@
             // fileNameLabel
             // 
             this.fileNameLabel.AutoSize = true;
-            this.fileNameLabel.Location = new System.Drawing.Point(276, 109);
+            this.fileNameLabel.Location = new System.Drawing.Point(25, 69);
             this.fileNameLabel.Name = "fileNameLabel";
             this.fileNameLabel.Size = new System.Drawing.Size(0, 17);
             this.fileNameLabel.TabIndex = 1;
             // 
             // btnGenerate
             // 
-            this.btnGenerate.Location = new System.Drawing.Point(250, 165);
+            this.btnGenerate.Location = new System.Drawing.Point(28, 115);
             this.btnGenerate.Name = "btnGenerate";
             this.btnGenerate.Size = new System.Drawing.Size(181, 39);
             this.btnGenerate.TabIndex = 2;
@@ -61,11 +62,21 @@
             this.btnGenerate.UseVisualStyleBackColor = true;
             this.btnGenerate.Click += new System.EventHandler(this.btnGenerate_Click);
             // 
+            // codeTextEditor
+            // 
+            this.codeTextEditor.Dock = System.Windows.Forms.DockStyle.Right;
+            this.codeTextEditor.Location = new System.Drawing.Point(385, 0);
+            this.codeTextEditor.Name = "codeTextEditor";
+            this.codeTextEditor.Size = new System.Drawing.Size(693, 472);
+            this.codeTextEditor.TabIndex = 3;
+            this.codeTextEditor.Text = "";
+            // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(727, 411);
+            this.ClientSize = new System.Drawing.Size(1078, 472);
+            this.Controls.Add(this.codeTextEditor);
             this.Controls.Add(this.btnGenerate);
             this.Controls.Add(this.fileNameLabel);
             this.Controls.Add(this.SelectFileButton);
@@ -80,6 +91,7 @@
         private System.Windows.Forms.Button SelectFileButton;
         private System.Windows.Forms.Label fileNameLabel;
         private System.Windows.Forms.Button btnGenerate;
+        private System.Windows.Forms.RichTextBox codeTextEditor;
     }
 }
 

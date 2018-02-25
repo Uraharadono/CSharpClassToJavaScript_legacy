@@ -101,7 +101,9 @@ namespace CsFilesUploadRuntimeConverter
             string result = FileUploadEcma6JsKnockoutGenerator.GenerateJs(model);
 
             Debug.WriteLine(result);
-           
+
+            codeTextEditor.Text = result;
+
             //foreach (var pair in listOfProperties)
             //{
             //    Debug.WriteLine($"{pair.ClassName}  -  {pair.OriginalPropertyLine}  ( {pair.LineType.PropertyType}/{pair.LineType.IsArray} ) /// {pair.PropertyName}  {pair.LineType.PropertyTypeName}");
