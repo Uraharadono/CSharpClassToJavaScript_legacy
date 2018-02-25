@@ -41,12 +41,13 @@ namespace CsFilesUploadRuntimeConverter
 
         private static void BuildArrayProperty(StringBuilder sb, FilePropertyModel fileProperty, string className)
         {
-            string nameOfMapVar = Helpers.ToCamelCase(fileProperty.PropertyName, true);
+            string nameOfMapVar = Helpers.ToCamelCase(fileProperty.PropertyName, true).Trim();
+            string nameOfClass = Helpers.ToCamelCase(className, true).Trim();
 
             if (fileProperty.PropertyType == PropertyType.ClassType)
             {
                 sb.AppendLine(
-                    $"\tconst mapped{nameOfMapVar} = data.{nameOfMapVar}.map(s => new {className}(s));");
+                    $"\tconst mapped{nameOfMapVar} = data.{nameOfMapVar}.map(s => new {nameOfClass}(s));");
 
                 sb.AppendLine(
                     $"\tthis.{nameOfMapVar} = ko.observableArray(mapped);");

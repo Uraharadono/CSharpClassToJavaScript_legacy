@@ -94,8 +94,10 @@ namespace CsFilesUploadRuntimeConverter
                 pair.PropertyName = PropertyNamesUtility.StripPropertyName(pair.OriginalPropertyLine.Trim(), pair.LineType);
             }
 
+            // Map it into proper model, so data is purposely there
             JSBuilderModel model = ModelsMapper.GetBuilderModel(listOfProperties);
 
+            // Finally generate
             string result = FileUploadEcma6JsKnockoutGenerator.GenerateJs(model);
 
             Debug.WriteLine(result);

@@ -23,6 +23,7 @@ namespace CsFilesUploadRuntimeConverter
         PrimitiveType = 0,
         ClassType = 1,
         // ArrayType = 2,
+        // Object = 2,
         Undefined = 2
     }
 

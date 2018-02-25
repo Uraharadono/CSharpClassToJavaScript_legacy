@@ -33,9 +33,10 @@ namespace CsFilesUploadRuntimeConverter
             }
             foreach (var className in listOfClassNames)
             {
-                if (property.ToLower().Contains(className))
+                if (property.ToLower().Contains(className.ToLower()))
                 {
                     retValue.PropertyType = PropertyType.ClassType;
+                    retValue.PropertyTypeName = className;
                 }
             }
 
@@ -78,8 +79,35 @@ namespace CsFilesUploadRuntimeConverter
             }
             else
             {
-                // TODO: 
-                return "";
+                // if type is undefined, just f**k sh*t up
+                var retS = line
+                    .Replace("{", "")
+                    .Replace("}", "")
+                    .Replace("get", "")
+                    .Replace("set", "")
+                    .Replace(";", "")
+                    .Replace("Int", "")
+                    .Replace("Int16", "")
+                    .Replace("Int32", "")
+                    .Replace("Int64", "")
+                    .Replace("UInt", "")
+                    .Replace("Short", "")
+                    .Replace("Bool", "")
+                    .Replace("Boolean", "")
+                    .Replace("Byte", "")
+                    .Replace("SByte", "")
+                    .Replace("Char", "")
+                    .Replace("Date", "")
+                    .Replace("DateTime", "")
+                    .Replace("Decimal", "")
+                    .Replace("Double", "")
+                    .Replace("Float", "")
+                    .Replace("String", "")
+                    .Replace("Object", "")
+                    .Replace("public", "")
+                    .Replace("private", "");
+
+                return retS;
             }
         }
     }
