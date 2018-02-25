@@ -6,7 +6,7 @@ This project in it's true form should contain .Net class library which will hand
 * ECMA 6 with knockout
 (for now.)
 
-I will be actively working on creating user interface for better user interface.
+I will be actively working on creating user interface for better user experience.
 
 
 ## Disclamer: 
