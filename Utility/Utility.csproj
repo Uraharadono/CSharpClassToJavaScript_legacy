@@ -42,6 +42,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Ecma6GeneratorKnockout.cs" />
+    <Compile Include="Extensions\LinqExtensions.cs" />
     <Compile Include="Helpers.cs" />
     <Compile Include="Ecma6Generator.cs" />
     <Compile Include="JsGenerator.cs" />

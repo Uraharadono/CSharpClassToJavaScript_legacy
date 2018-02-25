@@ -33,79 +33,78 @@ namespace CsFilesUploadRuntimeConverter
                 return;
             }
 
+            // Convert.to
             List<string> listOfClassNames = new List<string>();
-            //  KEY = ClassName - Value = Property
-            List<ClassPropertyPair> listOfProperties = new List<ClassPropertyPair>();
+            List<FileLinesOverviewModel> listOfProperties = new List<FileLinesOverviewModel>();
+            List<string> listOfVarTypes = new List<string>
+            {
+                "Int",
+                "Int16",
+                "Int32",
+                "Int64",
+                "UInt",
+                "Short",
+                "Bool",
+                "Boolean",
+                "Byte",
+                "SByte",
+                "Char",
+                "Date",
+                "DateTime",
+                "Decimal",
+                "Double",
+                "Float",
+                "String",
+                "Object"
+            };
+            List<string> listOfLowerVarTypes = listOfVarTypes.Select(d => d.ToLower()).ToList();
 
             string line;
             // Read the file and display it line by line.  
             StreamReader file = new StreamReader(filePath);
             while ((line = file.ReadLine()) != null)
             {
-                if (IsClass(line))
+                // Add all class names (Classes are imidiately stripped)
+                if (ClassNamesUtility.IsClass(line))
                 {
-                    listOfClassNames.Add(StripClassName(line));
+                    listOfClassNames.Add(ClassNamesUtility.StripClassName(line));
                 }
-
-                else if (IsProperty(line))
+                // And their properties (Properties are stripped down below)
+                else if (PropertyNamesUtility.IsProperty(line))
                 {
-                    listOfProperties.Add(new ClassPropertyPair
+                    listOfProperties.Add(new FileLinesOverviewModel
                     {
                         ClassName = listOfClassNames.Last(),
-                        PropertyValue = line
+                        OriginalPropertyLine = line,
+                        LineType = new LineType()
                     });
                 }
             }
-
             file.Close();
 
+            // First determine property type
             foreach (var pair in listOfProperties)
             {
-                Debug.WriteLine(pair.ClassName + "  -  " + pair.PropertyValue);
+                pair.LineType = PropertyNamesUtility.GetPropertyType(pair.OriginalPropertyLine, listOfClassNames, listOfLowerVarTypes);
             }
-        }
 
-
-        private bool IsClass(string line)
-        {
-            return line.Contains("class");
-        }
-
-        private string StripClassName(string line)
-        {
-            var startIndex = line.IndexOf("class ", StringComparison.Ordinal) + 6;
-            var endIndex = 0;
-            var length = line.Length;
-
-            var hasCurly = line.Contains("{");
-            if (!hasCurly)
+            // Then get property name
+            foreach (var pair in listOfProperties)
             {
-                // var endIndex = line.Length - line.LastIndexOf(" ", StringComparison.Ordinal);
-                endIndex = line.LastIndexOf(" ", StringComparison.Ordinal);
-            }
-            else
-            {
-                endIndex = line.LastIndexOf("{", StringComparison.Ordinal);
+                pair.PropertyName = PropertyNamesUtility.StripPropertyName(pair.OriginalPropertyLine.Trim(), pair.LineType);
             }
 
-            endIndex -= startIndex - 1;
+            JSBuilderModel model = ModelsMapper.GetBuilderModel(listOfProperties);
 
-            if (endIndex <= startIndex)
-                return line.Substring(startIndex);
+            string result = FileUploadEcma6JsKnockoutGenerator.GenerateJs(model);
 
-            return line.Substring(startIndex, endIndex);
+            Debug.WriteLine(result);
+           
+            //foreach (var pair in listOfProperties)
+            //{
+            //    Debug.WriteLine($"{pair.ClassName}  -  {pair.OriginalPropertyLine}  ( {pair.LineType.PropertyType}/{pair.LineType.IsArray} ) /// {pair.PropertyName}  {pair.LineType.PropertyTypeName}");
+            //}
         }
-
-
-        private bool IsProperty(string line)
-        {
-            // even though I am avare that this is error prone I can't find better way to check if
-            // given line is really variable
-            return (line.Contains("private") ||
-                    line.Contains("public"));
-            // || (line.Contains("{ get"));
-        }
-
 
         private void ShowErrorMessage()
         {
