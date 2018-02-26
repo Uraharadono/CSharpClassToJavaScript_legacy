@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel;
 
 namespace CsFilesUploadRuntimeConverterWithOptions
 {
@@ -53,9 +54,32 @@ namespace CsFilesUploadRuntimeConverterWithOptions
     public class ClassGeneratorOptions
     {
         public bool IncludeHeaders { get; set; }
-        public bool MakeEverythingObservable { get; set; }
+        // public bool MakeEverythingObservable { get; set; }
         public bool IncludeUnmapFunctions { get; set; }
         public bool IncludeIsLoadingVar { get; set; }
+        public EGenerateOptions ConversionType { get; set; }
     }
 
+    public enum EGenerateOptions
+    {
+        [Description("Javascript")]
+        Javascript = 0,
+        [Description("Ecma6 Javascript")]
+        Ecma6 = 1,
+        [Description("Ecma6 with Knockout")]
+        KnockoutEcma6 = 2
+    }
+
+    /* ============================= GENERAL MODEL ===================================== */
+    public class SelectViewModel
+    {
+        public SelectViewModel(int value, string type)
+        {
+            Value = value;
+            Type = type;
+        }
+
+        public int Value { get; set; }
+        public string Type { get; set; }
+    }
 }

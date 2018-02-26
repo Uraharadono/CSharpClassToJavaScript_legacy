@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
+using Utility.Extensions;
 
 namespace CsFilesUploadRuntimeConverterWithOptions
 {
@@ -12,16 +13,21 @@ namespace CsFilesUploadRuntimeConverterWithOptions
         public Main()
         {
             InitializeComponent();
+            List<SelectViewModel> listOfGenerateOptions = EnumExtensions.Enumerate<EGenerateOptions>()
+                .Select(t => new SelectViewModel(t.ToInt(), t.GetDisplayNameOrDescription()))
+                .ToList();
+
+            generateTypesDropdown.DataSource = listOfGenerateOptions;
         }
 
         private void SelectFileButton_Click(object sender, EventArgs e)
         {
-            OpenFileDialog op1 = new OpenFileDialog();
-            op1.Multiselect = true;
-            op1.ShowDialog();
-            op1.Filter = "allfiles|*.cs";
-            filePath = op1.FileName;
-            fileNameLabel.Text = op1.SafeFileName;
+            OpenFileDialog selectFileDialog = new OpenFileDialog();
+            selectFileDialog.Multiselect = true;
+            selectFileDialog.ShowDialog();
+            selectFileDialog.Filter = "allfiles|*.cs";
+            filePath = selectFileDialog.FileName;
+            fileNameLabel.Text = selectFileDialog.SafeFileName;
         }
 
         private void btnGenerate_Click(object sender, EventArgs e)
@@ -112,7 +118,7 @@ namespace CsFilesUploadRuntimeConverterWithOptions
             ClassGeneratorOptions retModel = new ClassGeneratorOptions();
 
             retModel.IncludeHeaders = includeHeadersCheckBox.Checked;
-            retModel.MakeEverythingObservable = allObservableCheckBox.Checked;
+            // retModel.MakeEverythingObservable = allObservableCheckBox.Checked;
             retModel.IncludeUnmapFunctions = unmapFunctionCheckBox.Checked;
             retModel.IncludeIsLoadingVar = isLoadingCheckBox.Checked;
 
