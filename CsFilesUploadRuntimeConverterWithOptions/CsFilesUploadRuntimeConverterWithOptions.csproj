@@ -45,7 +45,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ClassNamesUtility.cs" />
+    <Compile Include="Generators\JavascriptGenerator.cs" />
+    <Compile Include="NamesUtility\ClassNamesUtility.cs" />
+    <Compile Include="Generators\Ecma6Generator.cs" />
+    <Compile Include="Generators\Ecma6WithKnockoutGenerator.cs" />
     <Compile Include="JavascriptClassGenerator.cs" />
     <Compile Include="Main.cs">
       <SubType>Form</SubType>
@@ -53,11 +56,11 @@
     <Compile Include="Main.Designer.cs">
       <DependentUpon>Main.cs</DependentUpon>
     </Compile>
-    <Compile Include="Models.cs" />
-    <Compile Include="ModelsMapper.cs" />
+    <Compile Include="Models\Models.cs" />
+    <Compile Include="Mappers\ModelsMapper.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="PropertyNamesUtility.cs" />
+    <Compile Include="NamesUtility\PropertyNamesUtility.cs" />
     <EmbeddedResource Include="Main.resx">
       <DependentUpon>Main.cs</DependentUpon>
     </EmbeddedResource>

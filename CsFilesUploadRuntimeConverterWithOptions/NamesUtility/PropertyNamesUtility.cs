@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using CsFilesUploadRuntimeConverterWithOptions.Models;
 
-namespace CsFilesUploadRuntimeConverterWithOptions
+namespace CsFilesUploadRuntimeConverterWithOptions.NamesUtility
 {
     public static class PropertyNamesUtility
     {

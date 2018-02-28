@@ -3,9 +3,9 @@ using System.Text;
 using CsFilesUploadRuntimeConverterWithOptions.Models;
 using Utility;
 
-namespace CsFilesUploadRuntimeConverterWithOptions
+namespace CsFilesUploadRuntimeConverterWithOptions.Generators
 {
-    public static class JavascriptClassGenerator
+    public class Ecma6Generator
     {
         public static string GenerateJs(JSBuilderModel model, ClassGeneratorOptions options)
         {
@@ -30,10 +30,10 @@ namespace CsFilesUploadRuntimeConverterWithOptions
                         BuildPrimitiveProperty(sb, fileProperty);
                     }
                 }
-                
-                if (options.IncludeIsLoadingVar) BuildLoadingVar(sb, options.ConversionType);
+
+                if (options.IncludeIsLoadingVar) BuildLoadingVar(sb);
                 sb.AppendLine("    }"); // first close constructor parenthesis
-                if (options.IncludeUnmapFunctions) BuildUnmapFunction(sb, cModel.FileProperties, options.ConversionType);
+                if (options.IncludeUnmapFunctions) BuildUnmapFunction(sb, cModel.FileProperties);
 
                 BuildClassClosure(cModel.ClassName, sb);
 
@@ -42,7 +42,6 @@ namespace CsFilesUploadRuntimeConverterWithOptions
             }
             return sbOut.ToString();
         }
-
 
         // ======================= Special Utility Functions =======================
         private static void BuildClassHeaders(StringBuilder sb)
@@ -56,23 +55,12 @@ namespace CsFilesUploadRuntimeConverterWithOptions
             sb.AppendLine("");
         }
 
-        private static void BuildLoadingVar(StringBuilder sb, EGenerateOptions gOption)
+        private static void BuildLoadingVar(StringBuilder sb)
         {
-            switch (gOption)
-            {
-                case EGenerateOptions.Ecma6:
-                    sb.AppendLine("\tthis.isLoading = false;");
-                    break;
-                case EGenerateOptions.KnockoutEcma6:
-                    sb.AppendLine("\tthis.isLoading = ko.observable(false); ");
-                    break;
-                case EGenerateOptions.Javascript:
-                    // TODO: Implement
-                    break;
-            }
+            sb.AppendLine("\tthis.isLoading = false;");
         }
 
-        private static void BuildUnmapFunction(StringBuilder sb, List<FilePropertyModel> properties, EGenerateOptions gOption)
+        private static void BuildUnmapFunction(StringBuilder sb, List<FilePropertyModel> properties)
         {
             sb.AppendLine($" unmap() {{");
             sb.AppendLine($"\t return {{");
@@ -84,21 +72,11 @@ namespace CsFilesUploadRuntimeConverterWithOptions
                     if (fileProperty.PropertyType == PropertyType.PrimitiveType)
                     {
                         string nameOfMapVar = Helpers.ToCamelCase(fileProperty.PropertyName, true);
-                        switch (gOption)
-                        {
-                            case EGenerateOptions.Ecma6:
-                                sb.AppendLine($"\t\t {nameOfMapVar}: this.{nameOfMapVar}");
-                                break;
-                            case EGenerateOptions.KnockoutEcma6:
-                                sb.AppendLine($"\t\t {nameOfMapVar}: this.{nameOfMapVar}()");
-                                break;
-                            case EGenerateOptions.Javascript:
-                                // TODO: Implement
-                                break;
-                        }
+                        sb.AppendLine($"\t\t {nameOfMapVar}: this.{nameOfMapVar}");
                     }
                 }
             }
+            sb.AppendLine($"\t}}");
         }
 
         // ======================= Specific Build Functions =======================

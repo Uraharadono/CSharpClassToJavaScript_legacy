@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace CsFilesUploadRuntimeConverterWithOptions
+namespace CsFilesUploadRuntimeConverterWithOptions.NamesUtility
 {
     public static class ClassNamesUtility
     {

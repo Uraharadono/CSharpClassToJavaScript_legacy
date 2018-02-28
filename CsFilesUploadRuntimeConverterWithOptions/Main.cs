@@ -3,6 +3,10 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
+using CsFilesUploadRuntimeConverterWithOptions.Generators;
+using CsFilesUploadRuntimeConverterWithOptions.Mappers;
+using CsFilesUploadRuntimeConverterWithOptions.Models;
+using CsFilesUploadRuntimeConverterWithOptions.NamesUtility;
 using Utility.Extensions;
 
 namespace CsFilesUploadRuntimeConverterWithOptions
@@ -18,9 +22,10 @@ namespace CsFilesUploadRuntimeConverterWithOptions
                 .ToList();
 
             generateTypesDropdown.DataSource = listOfGenerateOptions;
+            generateTypesDropdown.DropDownStyle = ComboBoxStyle.DropDownList;
         }
 
-        private void SelectFileButton_Click(object sender, EventArgs e)
+        private void SelectFileButton_Click(object sender, EventArgs e) 
         {
             OpenFileDialog selectFileDialog = new OpenFileDialog();
             selectFileDialog.Multiselect = true;
@@ -38,7 +43,6 @@ namespace CsFilesUploadRuntimeConverterWithOptions
                 return;
             }
 
-            // Convert.to
             List<string> listOfClassNames = new List<string>();
             List<FileLinesOverviewModel> listOfProperties = new List<FileLinesOverviewModel>();
             List<string> listOfVarTypes = new List<string>
@@ -108,21 +112,33 @@ namespace CsFilesUploadRuntimeConverterWithOptions
             var options = GetOptionsModel();
 
             // Finally generate
-            string result = JavascriptClassGenerator.GenerateJs(model, options);
+            string result = null;
+            switch (options.ConversionType)
+            {
+                case EGenerateOptions.Javascript:
+                    result = JavascriptGenerator.GenerateJs(model, options);
+                    break;
+                case EGenerateOptions.Ecma6:
+                    result = Ecma6Generator.GenerateJs(model, options);
+                    break;
+                case EGenerateOptions.KnockoutEcma6:
+                    result = Ecma6WithKnockoutGenerator.GenerateJs(model, options);
+                    break;
+            }
+            // result = JavascriptClassGenerator.GenerateJs(model, options);
 
             codeTextEditor.Text = result;
         }
 
         private ClassGeneratorOptions GetOptionsModel()
         {
-            ClassGeneratorOptions retModel = new ClassGeneratorOptions();
-
-            retModel.IncludeHeaders = includeHeadersCheckBox.Checked;
-            // retModel.MakeEverythingObservable = allObservableCheckBox.Checked;
-            retModel.IncludeUnmapFunctions = unmapFunctionCheckBox.Checked;
-            retModel.IncludeIsLoadingVar = isLoadingCheckBox.Checked;
-
-            return retModel;
+            return new ClassGeneratorOptions
+            {
+                IncludeHeaders = includeHeadersCheckBox.Checked,
+                IncludeUnmapFunctions = unmapFunctionCheckBox.Checked,
+                IncludeIsLoadingVar = isLoadingCheckBox.Checked,
+                ConversionType = (EGenerateOptions)((SelectViewModel)generateTypesDropdown.SelectedItem).Value
+            };
         }
 
         private void ShowErrorMessage()

@@ -3,9 +3,9 @@ using System.Text;
 using CsFilesUploadRuntimeConverterWithOptions.Models;
 using Utility;
 
-namespace CsFilesUploadRuntimeConverterWithOptions
+namespace CsFilesUploadRuntimeConverterWithOptions.Generators
 {
-    public static class JavascriptClassGenerator
+    public class JavascriptGenerator
     {
         public static string GenerateJs(JSBuilderModel model, ClassGeneratorOptions options)
         {
@@ -30,7 +30,7 @@ namespace CsFilesUploadRuntimeConverterWithOptions
                         BuildPrimitiveProperty(sb, fileProperty);
                     }
                 }
-                
+
                 if (options.IncludeIsLoadingVar) BuildLoadingVar(sb, options.ConversionType);
                 sb.AppendLine("    }"); // first close constructor parenthesis
                 if (options.IncludeUnmapFunctions) BuildUnmapFunction(sb, cModel.FileProperties, options.ConversionType);

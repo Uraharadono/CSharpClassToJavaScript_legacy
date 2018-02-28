@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel;
 
-namespace CsFilesUploadRuntimeConverterWithOptions
+namespace CsFilesUploadRuntimeConverterWithOptions.Models
 {
     /* ============================= CLASS USED ONLY WHEN EXTRACTIN DATA FROM FILE ========================== */
     public class FileLinesOverviewModel
@@ -54,7 +54,6 @@ namespace CsFilesUploadRuntimeConverterWithOptions
     public class ClassGeneratorOptions
     {
         public bool IncludeHeaders { get; set; }
-        // public bool MakeEverythingObservable { get; set; }
         public bool IncludeUnmapFunctions { get; set; }
         public bool IncludeIsLoadingVar { get; set; }
         public EGenerateOptions ConversionType { get; set; }
@@ -81,5 +80,10 @@ namespace CsFilesUploadRuntimeConverterWithOptions
 
         public int Value { get; set; }
         public string Type { get; set; }
+
+        public override string ToString()
+        {
+            return Type;
+        }
     }
 }

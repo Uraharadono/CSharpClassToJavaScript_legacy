@@ -57,13 +57,13 @@ namespace CSharpToEcma6
             };
 
             // Plain Javascript generator
-            // var str = JsGenerator.Generate(new[] { typeof(AddressInformation) }, options);
+            var str = JsGenerator.Generate(new[] { typeof(AddressInformation) }, options);
 
             // ECMA6 Javascript class generator
             // var str = Ecma6Generator.Generate(new[] { typeof(AddressInformation) }, options);
 
             // Knockout + Ecma6 generator
-            var str = Ecma6KnockoutGenerator.Generate(new[] { typeof(AddressInformation) }, options);
+            // var str = Ecma6KnockoutGenerator.Generate(new[] { typeof(AddressInformation) }, options);
 
             Console.WriteLine(str);
         }

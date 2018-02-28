@@ -1,8 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using CsFilesUploadRuntimeConverterWithOptions.Models;
 using Utility.Extensions;
 
-namespace CsFilesUploadRuntimeConverterWithOptions
+namespace CsFilesUploadRuntimeConverterWithOptions.Mappers
 {
     public static class ModelsMapper
     {
