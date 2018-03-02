@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using System.ComponentModel;
+using Utility;
 
 namespace CsFilesUploadRuntimeConverterWithOptions.Models
 {
@@ -59,31 +59,31 @@ namespace CsFilesUploadRuntimeConverterWithOptions.Models
         public EGenerateOptions ConversionType { get; set; }
     }
 
-    public enum EGenerateOptions
-    {
-        [Description("Javascript")]
-        Javascript = 0,
-        [Description("Ecma6 Javascript")]
-        Ecma6 = 1,
-        [Description("Ecma6 with Knockout")]
-        KnockoutEcma6 = 2
-    }
+    //public enum EGenerateOptions
+    //{
+    //    [Description("Javascript")]
+    //    Javascript = 0,
+    //    [Description("Ecma6 Javascript")]
+    //    Ecma6 = 1,
+    //    [Description("Ecma6 with Knockout")]
+    //    KnockoutEcma6 = 2
+    //}
 
-    /* ============================= GENERAL MODEL ===================================== */
-    public class SelectViewModel
-    {
-        public SelectViewModel(int value, string type)
-        {
-            Value = value;
-            Type = type;
-        }
+    ///* ============================= GENERAL MODEL ===================================== */
+    //public class SelectViewModel
+    //{
+    //    public SelectViewModel(int value, string type)
+    //    {
+    //        Value = value;
+    //        Type = type;
+    //    }
 
-        public int Value { get; set; }
-        public string Type { get; set; }
+    //    public int Value { get; set; }
+    //    public string Type { get; set; }
 
-        public override string ToString()
-        {
-            return Type;
-        }
-    }
+    //    public override string ToString()
+    //    {
+    //        return Type;
+    //    }
+    //}
 }

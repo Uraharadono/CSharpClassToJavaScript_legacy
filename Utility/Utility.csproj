@@ -49,6 +49,7 @@
     <Compile Include="Ecma6Generator.cs" />
     <Compile Include="JsGenerator.cs" />
     <Compile Include="JsGeneratorOptions.cs" />
+    <Compile Include="Models\SelectViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="PropertyBag.cs" />
     <Compile Include="TypePropertyDictionaryGenerator.cs" />
