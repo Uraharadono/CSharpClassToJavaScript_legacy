@@ -42,17 +42,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Ecma6GeneratorKnockout.cs" />
     <Compile Include="Extensions\EnumExtensions.cs" />
     <Compile Include="Extensions\LinqExtensions.cs" />
+    <Compile Include="Generators\Ecma6KnockoutGenerator.cs" />
+    <Compile Include="Generators\Ecma6Generator.cs" />
     <Compile Include="Helpers.cs" />
-    <Compile Include="Ecma6Generator.cs" />
-    <Compile Include="JsGenerator.cs" />
+    <Compile Include="Generators\JsGenerator.cs" />
     <Compile Include="JsGeneratorOptions.cs" />
     <Compile Include="Models\SelectViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="PropertyBag.cs" />
     <Compile Include="TypePropertyDictionaryGenerator.cs" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

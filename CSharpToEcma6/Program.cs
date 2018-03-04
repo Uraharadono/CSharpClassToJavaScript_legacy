@@ -7,6 +7,7 @@ using System.Reflection;
 using System.Text;
 using Microsoft.CSharp;
 using Utility;
+using Utility.Generators;
 
 namespace CSharpToEcma6
 {

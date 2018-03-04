@@ -1,5 +1,12 @@
-﻿using System;
+﻿/*
+ * Idea taken from: https://www.codeproject.com/Articles/9019/Compiling-and-Executing-Code-at-Runtime
+ * More explanation on: https://www.codeproject.com/Articles/12499/Run-Time-Code-Generation-I-Compile-C-Code-using-Mi
+ */
+
+using System;
 using System.CodeDom.Compiler;
+using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using System.Text;
 using Microsoft.CSharp;
@@ -29,5 +36,16 @@ namespace CSharpToJavascriptRuntimeConverter.ReflectionUtil
             }
             return results.CompiledAssembly;
         }
+
+        public static List<TypeInfo> GetDefinedTypeInfo(Assembly asm)
+        {
+            return asm.DefinedTypes.ToList();
+        }
+
+        public static List<Type> GetExportedTypes(Assembly asm)
+        {
+            return asm.ExportedTypes.ToList();
+        }
+
     }
 }

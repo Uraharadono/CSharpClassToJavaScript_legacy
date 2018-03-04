@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Utility
+namespace Utility.Generators
 {
-    public static class JsGenerator
+    public static class Ecma6KnockoutGenerator
     {
         public static JsGeneratorOptions Options { get; set; } = new JsGeneratorOptions();
 
@@ -28,23 +28,7 @@ namespace Utility
             return js;
         }
 
-
-        [Obsolete("This is a legacy method. Please use the Generate(...) method instead.")]
-        public static string GenerateJsModelFromTypeWithDescendants(Type modelType, bool camelCasePropertyNames, string outputNamespace)
-        {
-            var propertyDictionary = TypePropertyDictionaryGenerator.GetPropertyDictionaryForTypeGeneration(new[] { modelType }, Options);
-
-            return GenerateJs(propertyDictionary, new JsGeneratorOptions()
-            {
-                CamelCase = camelCasePropertyNames,
-                ClassNameConstantsToRemove = new List<string>() { "Dto" },
-                OutputNamespace = outputNamespace,
-                IncludeMergeFunction = true
-            });
-
-        }
-
-        private static string GenerateJs(IEnumerable<PropertyBag> propertyCollection, JsGeneratorOptions generationOptions)
+        static string GenerateJs(IEnumerable<PropertyBag> propertyCollection, JsGeneratorOptions generationOptions)
         {
             var options = generationOptions;
             
@@ -134,14 +118,12 @@ namespace Utility
                         p.TransformablePropertyType == PropertyBag.TransformablePropertyTypeEnum.ReferenceType))
             {
                 sb.AppendLine(
-                    $"{options.OutputNamespace}.{Helpers.GetName(type.First().TypeName, options.ClassNameConstantsToRemove)} = function (cons, overrideObj) {{");
-                sb.AppendLine("\tif (!overrideObj) { overrideObj = { }; }");
-                sb.AppendLine("\tif (!cons) { cons = { }; }");
+                    $"{options.OutputNamespace} {Helpers.GetName(type.First().TypeName, options.ClassNameConstantsToRemove)} {{");
             }
             else if (type.First().TypeDefinition.IsEnum)
             {
                 sb.AppendLine(
-                    $"{options.OutputNamespace}.{Helpers.GetName(type.First().TypeName, options.ClassNameConstantsToRemove)} = {{");
+                    $"{options.OutputNamespace} {Helpers.GetName(type.First().TypeName, options.ClassNameConstantsToRemove)} = {{");
             }
             else
             {
@@ -358,7 +340,7 @@ namespace Utility
                     $"\tthis.{Helpers.ToCamelCase(propEntry.PropertyName, options.CamelCase)} = cons.{Helpers.ToCamelCase(propEntry.PropertyName, options.CamelCase)};");
             }
         }
-
+        
         private static void BuildObjectProperty(StringBuilder sb, PropertyBag propEntry, JsGeneratorOptions options)
         {
 

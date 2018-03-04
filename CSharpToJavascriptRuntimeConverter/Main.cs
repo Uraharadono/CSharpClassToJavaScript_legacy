@@ -8,6 +8,7 @@ using CSharpToJavascriptRuntimeConverter.NamesUtility;
 using CSharpToJavascriptRuntimeConverter.ReflectionUtil;
 using Utility;
 using Utility.Extensions;
+using Utility.Generators;
 using Utility.Models;
 
 namespace CSharpToJavascriptRuntimeConverter
@@ -83,11 +84,11 @@ namespace CSharpToJavascriptRuntimeConverter
                 ConversionType = (EGenerateOptions)((SelectViewModel)generateTypesDropdown.SelectedItem).Value
             };
 
-
             Assembly asm = BuildAssemblyUtil.BuildAssembly(fileContent);
+            List<Type> types = BuildAssemblyUtil.GetExportedTypes(asm); 
             object instance = null;
             Type type = null;
-            // instance = asm.CreateInstance(namespacename + "." + classname);
+
             instance = asm.CreateInstance("AddressInformation");
             type = instance.GetType();
 
@@ -99,10 +100,10 @@ namespace CSharpToJavascriptRuntimeConverter
                     result = JsGenerator.Generate(new[] { type }, options);
                     break;
                 case EGenerateOptions.Ecma6:
-                    // result = Ecma6Generator.GenerateJs(model, options);
+                    result = Ecma6Generator.Generate(new[] { type }, options);
                     break;
                 case EGenerateOptions.KnockoutEcma6:
-                    // result = Ecma6WithKnockoutGenerator.GenerateJs(model, options);
+                    result = Ecma6KnockoutGenerator.Generate(new[] { type }, options);
                     break;
             }
 
